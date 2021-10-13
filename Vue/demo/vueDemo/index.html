@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div id="test1" desc="绑定测试">
+				<span>{{test1.message}}</span>
+			</div>
+			<br />
+			<div id="test2" desc="条件测试">
+				<span v-if="test2.seen">条件展示</span>
+			</div>
+			
+			<div id="test3" desc="循环测试">
+				<ol>
+					<li v-for="user in test3">
+						{{user.name}}
+					</li>
+				</ol>
+			</div>
+			<br />
+			<div id="test4" desc="事件绑定">
+				<div>{{test4.text}}</div>
+				<button v-on:click="test4Click()">点击</button>
+			</div>
+			<br />
+			<div id="test5" desc="双向绑定">
+				<span>{{test5.text}}</span>
+				<input v-model="test5.text" />
+			</div>
+			
+			<div id="test5" desc="组件实现">
+				组件
+				<ol>
+					<todo-item 
+						v-for="todo in test5"
+						v-bind:id="todo.id"
+						v-bind:todo="todo">
+					</todo-item>
+				</ol>
+			</div>
+			
+		</div>
+	</body>
+	
+	
+	<script>
+		var data = {
+				test1: {
+					message: "绑定信息"
+				},
+				test2: {
+					seen: true
+				},
+				test3: [
+					{name: "n1"},
+					{name: "n2"},
+					{name: "n3"}
+				],
+				test4: {
+					text: "Hello"
+				},
+				test5: [
+					{id: 0, text: "t0"}, 
+					{id: 1, text: "t1"}, 
+					{id: 2, text: "t2"}, 
+					{id: 3, text: "t3"},
+				],
+			}
+		Vue.component("todo-item", {
+			props:['todo'],
+			template: "<li>{{todo.text}}</li>"
+		})
+		var app = new Vue({
+			el: "#app",
+			data: data,
+			methods: {
+				test4Click : function() {
+					this.test4.text = this.test4.text.split('').reverse().join('');
+				}
+			},
+			created() {
+				console.info("Vue实例被创建")
+			},
+		})
+	</script>
+</html>
